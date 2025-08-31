@@ -1,29 +1,60 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Calendar, Shield, User, Phone, MapPin, Clock, Wallet, AlertTriangle, CheckCircle, ExternalLink, RefreshCw } from 'lucide-react';
 import { ethers, BrowserProvider } from 'ethers';
 import { keccak256, toUtf8Bytes } from "ethers";
 import Trutiscontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
+import { QRCodeCanvas } from 'qrcode.react'
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { handleError, handleSuccess } from "./ErrorMessage"
 const OfficerTouristRegistration = () => {
+    const qrRef = useRef()
     const { ethereum } = window;
     const [formData, setFormData] = useState({
-        fullName: '',
-        passportNumber: '',
-        touristContact: '',
-        familyContact: '',
-        startDate: '',
-        endDate: ''
+        fullName: 'a',
+        passportNumber: 'b',
+        trustemail: 'rijwansk329@gmail.com',
+        touristContact: 'eeee',
+        familyContact: 'eeee',
+        startDate: '1-09-2025',
+        endDate: '9-09-2025'
     });
 
     const [errors, setErrors] = useState({});
-    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(true
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [connermetamask, setconnermetamask] = useState(true)
     const [trycon, settrycon] = useState(false)
     const [add, setadd] = useState('')
     const [bal, setbal] = useState('')
-    const [Trustid, setTrustid] = useState('')
+    const [Trustid, setTrustid] = useState(777)
     const [Tnx, setTnx] = useState('')
-    const [Trustidgen, setTrustidgen] = useState(true)
+    const [Trustidgen, setTrustidgen] = useState(false)
+    const [downloadbtn, setdownloadbtn] = useState(true)
+
+    const downloadpdf = async (e) => {
+        // e.preventDefault()
+        const qrElement = qrRef.current?.querySelector("canvas");
+        if (!qrElement) return;
+        const qrDataUrl = qrElement.toDataURL("image/png");
+        const url = `${import.meta.env.VITE_BACKEND_URL}/api/v1/pdfwork/sendmail`
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                ...formData,
+                qrCode: qrDataUrl // if QR generated in frontend
+            }),
+        });
+        const data = await res.json();
+        console.log(data);
+        if (!data.success) {
+            return handleError("Mail is not due to error")
+        }
+        handleSuccess("Mail is send.")
+        return setdownloadbtn(true)
+    };
     const connectWallet = async (e) => {
         e.preventDefault();
         settrycon(true)
@@ -186,6 +217,7 @@ const OfficerTouristRegistration = () => {
         setFormData({
             fullName: '',
             passportNumber: '',
+            trustemail: '',
             touristContact: '',
             familyContact: '',
             startDate: '',
@@ -329,12 +361,18 @@ const OfficerTouristRegistration = () => {
                                 {Trustidgen ? <div className="flex items-center justify-center space-x-2">
                                     <div className="w-4 h-4 border-2 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
                                     <span>Genarate TrustId ...</span>
-                                </div> : <div className="mt-2">
+                                </div> : <div><div className="mt-2">
                                     <p className="text-xs font-mono text-gray-700 bg-white p-2 rounded border">
                                         TrustId: {Trustid}
                                     </p>
                                     <p className="text-xs text-gray-500 mt-1">Transaction recorded on blockchain network</p>
-                                </div>}
+                                </div>
+                                    <p className="text-[20px] text-gray-800 mt-1 text-center"> blockchain Transaction recorded QR</p>
+                                    <div ref={qrRef} className='flex flex-col items-center justify-center mt-3'>
+                                        <QRCodeCanvas value={`${import.meta.env.VITE_FRONTEND_URL}/${Trustid}`} size={150} />
+                                    </div>
+                                </div>
+                                }
                             </div>
 
                             <div className="mt-6 pt-6 border-t border-gray-200">
@@ -344,12 +382,12 @@ const OfficerTouristRegistration = () => {
                                     </p>
                                 </div>
 
-                                <button
+                                {downloadbtn ? <button onClick={downloadpdf} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Download PDF</button> : <button
                                     onClick={resetForm}
                                     className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
                                     Register Another Tourist
-                                </button>
+                                </button>}
                             </div>
                         </div>
                     </div>
@@ -532,6 +570,19 @@ const OfficerTouristRegistration = () => {
                                         />
                                         {errors.passportNumber && <p className="text-red-600 text-sm mt-1">{errors.passportNumber}</p>}
                                         <p className="text-xs text-gray-500 mt-1">6-9 alphanumeric characters</p>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Email *
+                                        </label>
+                                        <input
+                                            type="email"
+                                            value={formData.trustemail}
+                                            onChange={(e) => handleInputChange('trustemail', e.target.value)}
+                                            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                                            placeholder="e.g., example@gmail.com"
+                                            required
+                                        />
                                     </div>
                                 </div>
                             </div>

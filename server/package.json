@@ -8,5 +8,15 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "nodemailer": "^7.0.6",
+    "path": "^0.12.7",
+    "pdfkit": "^0.17.2",
+    "util": "^0.12.5"
+  }
 }
