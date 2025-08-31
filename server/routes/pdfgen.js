@@ -9,7 +9,7 @@ const PdfRouter = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 PdfRouter.post("/sendmail", (req, res) => {
-    const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, qrCode } = req.body;
+    const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, qrCode,Trustid } = req.body;
     try {
         // Create PDF
         const doc = new PDFDocument();
@@ -24,6 +24,7 @@ PdfRouter.post("/sendmail", (req, res) => {
         doc.fontSize(25).text("Smart Tourist Safety ID", { align: "center" });
         doc.moveDown();
         doc.fontSize(20).text(`Full Name: ${fullName}`);
+        doc.text(`Your smart ID: ${Trustid}`);
         doc.text(`Passport Number: ${passportNumber}`);
         doc.text(`Tourist Contact: ${touristContact}`);
         doc.text(`Family Contact: ${familyContact}`);

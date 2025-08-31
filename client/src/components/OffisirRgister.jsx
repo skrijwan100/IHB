@@ -11,30 +11,31 @@ const OfficerTouristRegistration = () => {
     const qrRef = useRef()
     const { ethereum } = window;
     const [formData, setFormData] = useState({
-        fullName: 'a',
-        passportNumber: 'b',
-        trustemail: 'rijwansk329@gmail.com',
-        touristContact: 'eeee',
-        familyContact: 'eeee',
-        startDate: '1-09-2025',
-        endDate: '9-09-2025'
+        fullName: '',
+        passportNumber: '',
+        trustemail: '',
+        touristContact: '',
+        familyContact: '',
+        startDate: '',
+        endDate: ''
     });
 
     const [errors, setErrors] = useState({});
-    const [showConfirmation, setShowConfirmation] = useState(true
-    );
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [connermetamask, setconnermetamask] = useState(true)
     const [trycon, settrycon] = useState(false)
     const [add, setadd] = useState('')
     const [bal, setbal] = useState('')
-    const [Trustid, setTrustid] = useState(777)
+    const [Trustid, setTrustid] = useState()
     const [Tnx, setTnx] = useState('')
-    const [Trustidgen, setTrustidgen] = useState(false)
+    const [Trustidgen, setTrustidgen] = useState(true)
     const [downloadbtn, setdownloadbtn] = useState(true)
+    const [loadmail,setloadmail]=useState(false)
 
     const downloadpdf = async (e) => {
         // e.preventDefault()
+        setloadmail(true)
         const qrElement = qrRef.current?.querySelector("canvas");
         if (!qrElement) return;
         const qrDataUrl = qrElement.toDataURL("image/png");
@@ -44,7 +45,9 @@ const OfficerTouristRegistration = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 ...formData,
-                qrCode: qrDataUrl // if QR generated in frontend
+                qrCode: qrDataUrl,
+                Trustid:Trustid
+                 // if QR generated in frontend
             }),
         });
         const data = await res.json();
@@ -52,6 +55,7 @@ const OfficerTouristRegistration = () => {
         if (!data.success) {
             return handleError("Mail is not due to error")
         }
+        setloadmail(false)
         handleSuccess("Mail is send.")
         return setdownloadbtn(true)
     };
@@ -382,7 +386,7 @@ const OfficerTouristRegistration = () => {
                                     </p>
                                 </div>
 
-                                {downloadbtn ? <button onClick={downloadpdf} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Download PDF</button> : <button
+                                {downloadbtn ? <button onClick={downloadpdf} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{loadmail?<div className='flex justify-center items-center'><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></div>:'Send PDF'}</button> : <button
                                     onClick={resetForm}
                                     className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
