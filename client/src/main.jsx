@@ -6,6 +6,9 @@ import App from './App.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import OfficerTouristRegistration from "./components/OffisirRgister.jsx"
 import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.jsx"
+
+import DashboardPage from './pages/DashboardPage.jsx'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +34,7 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: (
           <ProtectRoute>
-            <div>Dashboard Page</div>
+              <DashboardPage />
           </ProtectRoute>
         )
       }
