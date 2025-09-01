@@ -31,7 +31,20 @@ const loginUser = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {accessToken, user}, "User logged in successfully"));
 })
 
+const currentUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id)
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+    return res.status(200).json(new ApiResponse(200, user, "User retrieved successfully"));
+});
+
+const logOutUser = asyncHandler(async (req, res) => {
+    return res.status(200).json(new ApiResponse(200, null, "User logged out successfully"));
+})
 
 export {
-    loginUser
+    loginUser,
+    currentUser,
+    logOutUser
 }
