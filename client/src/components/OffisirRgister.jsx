@@ -48,6 +48,18 @@ const OfficerTouristRegistration = () => {
                  // if QR generated in frontend
             }),
         });
+        const url1 = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/savedata`
+        const res1= await fetch(url1, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                ...formData,
+                Trustid:Trustid
+            }),
+        })
+        const data1 = await res1.json();
+        console.log(data1);
+
         const data = await res.json();
         console.log(data);
         if (!data.success) {

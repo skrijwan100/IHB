@@ -1,40 +1,39 @@
-import { Type } from "lucide-react";
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     fullname: {
-        Type: String,
+        type: String,
         require: true
     },
     smartID: {
-        Type: String,
+        type: String,
         require: true,
     },
     passportID: {
-        Type: String,
+        type: String,
         require: true,
     },
     email: {
-        Type: String,
+        type: String,
         require: true,
     },
     ownphno: {
-        Type: Number,
+        type: String,
         require: true
     },
     famphno: {
-        Type: Number,
+        type: String,
         require: true
     },
     tripst: {
-        Type: String,
+        type: String,
         require: true,
     },
     trioend: {
-        Type: String,
+        type: String,
         require: true,
     }
 })
 
 
-const userModel = mongoose.model.user || mongoose.model("user", userSchema);
-export default userModel;
+const User = mongoose.model("User", userSchema);
+export default User;
