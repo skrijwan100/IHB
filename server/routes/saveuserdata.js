@@ -3,12 +3,13 @@ import User from "../models/User.js";
 const UserRouter = express.Router();
 
 UserRouter.post("/savedata", (req, res) => {
-  const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, Trustid } = req.body;
+  const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, nationality,Trustid } = req.body;
 
   const newuser = new User({
     fullname: fullName,
     smartID: Trustid,
     passportID: passportNumber,
+    nationality:nationality,
     email: trustemail,
     ownphno: touristContact,
     famphno: familyContact,
@@ -26,5 +27,8 @@ UserRouter.post("/savedata", (req, res) => {
     });
 });
 
+UserRouter.get("/fethalldata",(req,res)=>{
+  
+})
 
 export default UserRouter

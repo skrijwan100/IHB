@@ -8,6 +8,7 @@ import OfficerTouristRegistration from "./components/OffisirRgister.jsx"
 import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.jsx"
 
 import DashboardPage from './pages/DashboardPage.jsx'
+import GovernmentVerificationPage from './pages/VerifyPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -25,9 +26,7 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-          <ProtectRoute>
             <OfficerTouristRegistration />
-          </ProtectRoute>
         )
       },
       {
@@ -36,6 +35,12 @@ const router = createBrowserRouter([
           <ProtectRoute>
               <DashboardPage />
           </ProtectRoute>
+        )
+      },
+      {
+        path: "/:id",
+        element: (
+              <GovernmentVerificationPage />
         )
       }
     ]

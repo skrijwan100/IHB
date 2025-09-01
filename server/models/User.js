@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    nationality: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true,

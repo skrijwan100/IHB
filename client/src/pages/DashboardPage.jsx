@@ -1,11 +1,19 @@
 import React from "react";
 import tajmahal from "../assets/tajmahal.png";
 import destinations from "../data/destinations.json";
-import { MapPin, Search, User } from "lucide-react";
+import { MapPin, Search, User,ShieldAlert  } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 const DashboardPage = () => {
+  const handleclick = (id) => {
+    document.querySelector(id)?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
   return (
+    
     <main className="w-full min-h-screen bg-gray-50">
+      {/* <Navbar/> */}
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-white">
         {/* Background Image */}
@@ -29,29 +37,22 @@ const DashboardPage = () => {
           </p>
 
           {/* Search & Buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition">
-              <MapPin size={20} /> Explore Destinations
+          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4" style={{flexDirection:"column"}}>
+            <a onClick={(e) => {
+              e.preventDefault(); // Prevent default anchor jump
+              handleclick('#allsopt');
+            }}><button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition">
+                <MapPin size={20} /> Explore Destinations
+              </button></a>
+            <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl hover:to-red-500 hover:from-red-700 transition cursor-pointer">
+              <ShieldAlert size={20} /> Emergency SOS 
             </button>
-
-            <div className="relative w-full sm:w-72">
-              <Search
-                size={18}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              />
-              <input
-                type="text"
-                placeholder="Search places..."
-                className="pl-10 pr-4 py-3 w-full rounded-xl text-white shadow-md outline-none border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-400 transition"
-              />
-            </div>
           </div>
 
           {/* Stats */}
           <div className="mt-14 flex flex-wrap justify-center gap-6 md:gap-12 text-lg font-semibold">
             {[
               { num: "28", label: "States & UT" },
-              { num: "40+", label: "UNESCO Sites" },
               { num: "1.4B", label: "People" },
               { num: "22", label: "Languages" },
             ].map((stat, i) => (
@@ -68,8 +69,8 @@ const DashboardPage = () => {
       </section>
 
       {/* Top Destinations Section */}
-      <section className="py-12 px-6 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
+      <section id="allsopt" className="py-12 px-6  mx-auto bg-gray-900">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-white">
           Top Destinations in <span className="text-orange-600">India</span>
         </h2>
 
@@ -77,7 +78,7 @@ const DashboardPage = () => {
           {destinations.map((dest) => (
             <div
               key={dest.id}
-              className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+              className="bg-gray-800 rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition duration-300"
             >
               {/* Image & Overlay */}
               <div className="relative overflow-hidden">
@@ -95,15 +96,15 @@ const DashboardPage = () => {
               {/* Card Content */}
               <div className="p-5">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition">
+                  <h3 className="text-lg font-semibold text-white group-hover:text-orange-600 transition">
                     {dest.name}
                   </h3>
-                  <span className="text-gray-500 flex items-center text-sm gap-1">
+                  <span className="text-gray-400 flex items-center text-sm gap-1">
                     <User size={16} /> {dest.subtitle}
                   </span>
                 </div>
 
-                <p className="mt-2 text-gray-600 text-sm leading-relaxed">
+                <p className="mt-2 text-gray-300 text-sm leading-relaxed">
                   {dest.description}
                 </p>
 
@@ -112,7 +113,7 @@ const DashboardPage = () => {
                   {dest.tags.map((tag, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full hover:bg-orange-500 hover:text-white transition"
+                      className="px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full hover:bg-green-500 hover:text-white transition"
                     >
                       {tag}
                     </span>

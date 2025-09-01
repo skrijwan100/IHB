@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Calendar, Shield, User, Phone, MapPin, Clock, Wallet, AlertTriangle, CheckCircle, ExternalLink, RefreshCw } from 'lucide-react';
+import { Calendar, MapPinHouse ,Shield, User, Phone, MapPin, Clock, Wallet, AlertTriangle, CheckCircle, ExternalLink, RefreshCw } from 'lucide-react';
 import { ethers, BrowserProvider } from 'ethers';
 import { keccak256, toUtf8Bytes } from "ethers";
 import Trutiscontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
@@ -15,7 +15,8 @@ const OfficerTouristRegistration = () => {
         touristContact: '',
         familyContact: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        nationality:''
     });
 
     const [errors, setErrors] = useState({});
@@ -308,6 +309,13 @@ const OfficerTouristRegistration = () => {
                                                     <p className="text-sm text-gray-500">Passport Number</p>
                                                 </div>
                                             </div>
+                                            <div className="flex items-center space-x-3">
+                                                <MapPinHouse  className="w-4 h-4 text-gray-400" />
+                                                <div>
+                                                    <p className="font-medium text-gray-900">{formData.nationality}</p>
+                                                    <p className="text-sm text-gray-500">Nationality </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -584,6 +592,19 @@ const OfficerTouristRegistration = () => {
                                         />
                                         {errors.passportNumber && <p className="text-red-600 text-sm mt-1">{errors.passportNumber}</p>}
                                         <p className="text-xs text-gray-500 mt-1">6-9 alphanumeric characters</p>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Nationality *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.nationality}
+                                            onChange={(e) => handleInputChange('nationality', e.target.value)}
+                                            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                                            placeholder="Your own country "
+                                            required
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
