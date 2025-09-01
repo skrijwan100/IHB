@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import OfficerTouristRegistration from "./components/OffisirRgister.jsx"
+import DashboardPage from './pages/DashboardPage.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <div>Dashboard Page</div>
+        element: <DashboardPage />
       }
     ]
   }
