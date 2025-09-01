@@ -31,6 +31,58 @@ const userStore = create((set, get) => ({
             set({ isLoading: false, error: error.message });
             throw error;
         }
+    },
+    currentUser : async () => {
+        set({ isLoading: true, error: null });
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v2/auth/current`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }
+            );
+            if (response.status === 200) {
+                const user = response.data.data;
+                set({
+                    user,
+                    isAuthenticated: true,
+                    isLoading: false
+                });
+            } else {
+                set({ user: null, isAuthenticated: false, isLoading: false });
+            }
+        } catch (error) {
+            set({ isLoading: false, error: error.message });
+            throw error;
+        }
+    },
+    logOut : async () => {
+        set({ isLoading: true, error: null });
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/v2/auth/logout`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }
+            );
+            if (response.status === 200) {
+                localStorage.removeItem("accessToken");
+                set({
+                    user: null,
+                    isAuthenticated: false,
+                    isLoading: false
+                });
+            } else {
+                set({ user: null, isAuthenticated: false, isLoading: false });
+            }
+        } catch (error) {
+            set({ isLoading: false, error: error.message });
+            throw error;
+        }
     }
 }))
 

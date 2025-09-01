@@ -5,7 +5,10 @@ import './index.css'
 import App from './App.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import OfficerTouristRegistration from "./components/OffisirRgister.jsx"
+import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.jsx"
+
 import DashboardPage from './pages/DashboardPage.jsx'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,15 +16,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LoginPage />
+        element: (
+          <AuthenticatedUserRoute>
+            <LoginPage />
+          </AuthenticatedUserRoute>
+        )
       },
       {
         path: "/admin",
-        element: <OfficerTouristRegistration/>
+        element: (
+          <ProtectRoute>
+            <OfficerTouristRegistration />
+          </ProtectRoute>
+        )
       },
       {
         path: "/dashboard",
-        element: <DashboardPage />
+        element: (
+          <ProtectRoute>
+              <DashboardPage />
+          </ProtectRoute>
+        )
       }
     ]
   }
