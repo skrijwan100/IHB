@@ -4,8 +4,6 @@ import { ethers, BrowserProvider } from 'ethers';
 import { keccak256, toUtf8Bytes } from "ethers";
 import Trutiscontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
 import { QRCodeCanvas } from 'qrcode.react'
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import { handleError, handleSuccess } from "./ErrorMessage"
 const OfficerTouristRegistration = () => {
     const qrRef = useRef()
