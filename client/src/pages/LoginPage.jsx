@@ -50,6 +50,7 @@ export default function LoginPage() {
     try {
       await logIn(smartID, fullname);
       // ✅ Navigate after successful login
+      localStorage.setItem("ID",smartID)
       navigate("/dashboard");
 
       const messageBox = document.getElementById("message-box");

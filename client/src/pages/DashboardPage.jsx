@@ -71,7 +71,7 @@ const DashboardPage = () => {
       {/* Top Destinations Section */}
       <section id="allsopt" className="py-12 px-6  mx-auto bg-gray-900">
         <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-white">
-          Top Destinations in <span className="text-orange-600">India</span>
+          Top Destinations in <span className="text-orange-600">In<span className="text-white">d</span><span  className="text-green-600">ia</span></span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

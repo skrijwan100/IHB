@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     smartID: {
         type: String,
         require: true,
+        unique: true
     },
     passportID: {
         type: String,

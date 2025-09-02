@@ -1,15 +1,16 @@
 import express from "express"
 import User from "../models/User.js";
+import { fecthuer } from "../middleware/fecthuser.js";
 const UserRouter = express.Router();
 
 UserRouter.post("/savedata", (req, res) => {
-  const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, nationality,Trustid } = req.body;
+  const { fullName, passportNumber, trustemail, touristContact, familyContact, startDate, endDate, nationality, Trustid } = req.body;
 
   const newuser = new User({
     fullname: fullName,
     smartID: Trustid,
     passportID: passportNumber,
-    nationality:nationality,
+    nationality: nationality,
     email: trustemail,
     ownphno: touristContact,
     famphno: familyContact,
@@ -27,8 +28,16 @@ UserRouter.post("/savedata", (req, res) => {
     });
 });
 
-UserRouter.get("/fethalldata",(req,res)=>{
-  
+UserRouter.get("/fethalldata", fecthuer, async (req, res) => {
+  try {
+     const userid = req.user;
+    const userdata = await User.findById(userid);
+    return res.status(200).json({ "Status": true, "message": userdata })
+
+  } catch (error) {
+    console.log(error)
+    return res.status(505).json({ "Status": false, "error": "Internal server error" })
+  }
 })
 
 export default UserRouter

@@ -29,7 +29,7 @@ const GovernmentVerificationPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [fecthdone, setfecthdone] = useState(false)
     const [verificationData, setVerificationData] = useState('A1234567');
-    const [blockdata,setbloackdata]=useState([])
+    const [blockdata, setbloackdata] = useState([])
 
 
     const fecthBlockdata = async () => {
@@ -48,6 +48,7 @@ const GovernmentVerificationPage = () => {
             infuraProvider
         )
         try {
+
             const allvote = await getcontarct.filters.SaveTourist(id);
             const getEvent = await getcontarct.queryFilter(allvote)
             console.log(getEvent)
@@ -56,18 +57,27 @@ const GovernmentVerificationPage = () => {
             setfecthdone(true)
 
         } catch (error) {
+            console.log(error)
             handleError("This is Invalid Id")
             return setIsLoading(false)
         }
 
-        if (getEvent.length == 0) {
-            return alert("This is a Invalid Id")
-        }
-        
+    }
+    const fecthAlldata= async()=>{
+            const url=`${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/fethalldata`
+            const res= await fetch(url,{
+                method:"GET",
+                headers: { "Content-Type": "application/json", 
+                    'accessToken':localStorage.getItem('accessToken')
+                },
+            })
+            const data= await res.json()
+            console.log(data)
     }
     useEffect(() => {
         fecthBlockdata()
-    }, [searchType])
+        fecthAlldata()
+    }, [])
 
     const getTripStatus = (startDate, endDate) => {
         const now = new Date();
@@ -158,18 +168,18 @@ const GovernmentVerificationPage = () => {
                                         <div className="grid md:grid-cols-2 gap-6">
                                             <div>
                                                 <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Full Name</label>
-                                                {/* <p className="text-lg font-semibold text-gray-900 mt-1">{verificationData.touristInfo.fullName}</p> */}
+                                                <p className="text-lg font-semibold text-gray-900 mt-1">{blockdata[0].args.name}</p>
+                                            </div>
+                                              <div>
+                                                <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Tourist Contact (Hash Format)</label>
+                                                <p className="text-xs font-semibold text-gray-900 mt-1">{`${blockdata[0].args.ownphno.slice(0,15)}...${blockdata[0].args.ownphno.slice(-4)}`}</p>
                                             </div>
                                             <div>
-                                                <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Nationality</label>
-                                                {/* <p className="text-lg font-semibold text-gray-900 mt-1">{verificationData.touristInfo.nationality}</p> */}
-                                            </div>
-                                            <div>
-                                                <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Passport Number</label>
+                                                <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Passport Number(Hash format)</label>
                                                 <div className="flex items-center space-x-2 mt-1">
-                                                    {/* <p className="text-lg font-mono font-semibold text-gray-900">{verificationData.touristInfo.passportNumber}</p> */}
+                                                    <p className="text-xs font-mono font-semibold text-gray-900 ">{blockdata[0].args.Passhash}</p>
                                                     <button
-                                                        onClick={() => copyToClipboard(verificationData.touristInfo.passportNumber)}
+                                                        onClick={() => copyToClipboard(blockdata[0].args.Passhash)}
                                                         className="text-gray-400 hover:text-gray-600 transition-colors"
                                                         title="Copy passport number"
                                                     >
@@ -179,10 +189,7 @@ const GovernmentVerificationPage = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Tourist Contact</label>
-                                                {/* <p className="text-lg font-semibold text-gray-900 mt-1">{verificationData.touristInfo.touristContact}</p> */}
-                                            </div>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -202,15 +209,11 @@ const GovernmentVerificationPage = () => {
                                                 <div className="mt-2 space-y-2">
                                                     <div className="flex items-center space-x-2">
                                                         <span className="text-sm text-gray-600">Start:</span>
-                                                        {/* <span className="font-semibold text-gray-900">{formatDate(verificationData.tripDetails.startDate)}</span> */}
+                                                        <span className="font-semibold text-gray-900">{blockdata[0].args.tripstart}</span>
                                                     </div>
                                                     <div className="flex items-center space-x-2">
                                                         <span className="text-sm text-gray-600">End:</span>
-                                                        {/* <span className="font-semibold text-gray-900">{formatDate(verificationData.tripDetails.endDate)}</span> */}
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="text-sm text-gray-600">Duration:</span>
-                                                        {/* <span className="font-semibold text-gray-900">{verificationData.tripDetails.duration} days</span> */}
+                                                        <span className="font-semibold text-gray-900">{blockdata[0].args.tripend}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -231,12 +234,12 @@ const GovernmentVerificationPage = () => {
                                         </div> */}
                                             <div>
                                                 <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Registered By</label>
-                                                {/* <p className="text-lg font-semibold text-gray-900 mt-1">{verificationData.tripDetails.registeredBy}</p> */}
+                                                <p className="text-lg font-semibold text-gray-900 mt-1">Goverment of India</p>
                                                 {/* <p className="text-sm text-gray-600">{verificationData.tripDetails.location}</p> */}
                                             </div>
                                             <div>
                                                 <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Registration Date</label>
-                                                {/* <p className="text-lg font-semibold text-gray-900 mt-1">{formatDate(verificationData.tripDetails.registrationDate)}</p> */}
+                                                <p className="text-lg font-semibold text-gray-900 mt-1">{blockdata[0].args.tripstart}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +259,7 @@ const GovernmentVerificationPage = () => {
                                     <div className="p-6 space-y-4">
                                         <div>
                                             <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Verified By</label>
-                                            {/* <p className="text-sm font-semibold text-gray-900 mt-1">{verificationData.verificationStatus.verifiedBy}</p> */}
+                                            <p className="text-sm font-semibold text-gray-900 mt-1">Goverment of India</p>
                                         </div>
                                         <div>
                                             <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Status</label>
@@ -265,10 +268,7 @@ const GovernmentVerificationPage = () => {
                                                 <span className="text-green-700 font-medium">Active & Valid</span>
                                             </div>
                                         </div>
-                                        <div>
-                                            <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Last Updated</label>
-                                            {/* <p className="text-sm text-gray-900 mt-1">{verificationData.verificationStatus.lastUpdated}</p> */}
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -285,8 +285,8 @@ const GovernmentVerificationPage = () => {
                                             <label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Transaction Hash</label>
                                             <div className="flex items-center space-x-2 mt-1">
                                                 <p className="text-xs font-mono text-gray-900 bg-gray-50 p-2 rounded border flex-1 truncate">
-                                                {blockdata[0].transactionHash}
-                                            </p>
+                                                    {blockdata[0].transactionHash}
+                                                </p>
                                                 <button
                                                     onClick={() => copyToClipboard(blockdata[0].transactionHash)}
                                                     className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -304,7 +304,7 @@ const GovernmentVerificationPage = () => {
                                                 <p className="text-sm font-mono text-gray-900 mt-1">{blockdata[0].blockNumber}</p>
                                             </div>
                                         </div>
-                                    
+
                                         <a target="_blank" href={`https://sepolia.etherscan.io/tx/${blockdata[0].transactionHash}`}><button className="w-full bg-blue-50 text-blue-700 py-2 px-4 rounded-lg font-medium hover:bg-blue-100 transition-colors flex items-center justify-center space-x-2">
                                             <ExternalLink className="w-4 h-4" />
                                             <span>View on Blockchain Explorer</span>

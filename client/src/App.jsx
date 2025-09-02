@@ -12,9 +12,9 @@ function App() {
     currentUser();
   }, [currentUser]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <>
