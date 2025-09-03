@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Food quality is not good",
+    "description": "Meals were cold and lacked proper seasoning. Buffet section was poorly maintained.",
+    "location": "Restaurant",
+    "priority": "High",
+    "user": "0xe9...117d",
+    "date": "8/8/2025, 2:10:24 AM"
+  },
+  {
+    "id": 2,
+    "title": "Staff behavior is not good",
+    "description": "Reception staff was rude during check-in and did not provide proper guidance.",
+    "location": "Front Desk",
+    "priority": "Medium",
+    "user": "0x44...6CCf",
+    "date": "8/8/2025, 2:39:24 AM"
+  },
+  {
+    "id": 3,
+    "title": "Electricity very bad",
+    "description": "Frequent power cuts during the night. Backup generator took too long to start.",
+    "location": "Guest Rooms",
+    "priority": "High",
+    "user": "0x77...E5dc",
+    "date": "8/8/2025, 5:24:48 PM"
+  },
+  {
+    "id": 4,
+    "title": "WiFi not working properly",
+    "description": "Internet connection keeps disconnecting and speed is too slow for video calls.",
+    "location": "Lobby & Rooms",
+    "priority": "Medium",
+    "user": "0x12...A4f2",
+    "date": "8/9/2025, 10:15:03 AM"
+  },
+  {
+    "id": 5,
+    "title": "Room was not clean",
+    "description": "Bedsheets were stained, floor was dusty, and bathroom was not hygienic.",
+    "location": "Room 204",
+    "priority": "High",
+    "user": "0x8B...9eC7",
+    "date": "8/9/2025, 11:47:52 AM"
+  }
+]
