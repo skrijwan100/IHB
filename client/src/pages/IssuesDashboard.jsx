@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import issues from "../data/issues.json";
 import { User, Calendar, Tag, Globe } from "lucide-react";
 import { ethers, BrowserProvider } from 'ethers';
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Turistcontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
 const IssuesDashboard = () => {
   const { ethereum } = window;
@@ -65,9 +65,8 @@ const IssuesDashboard = () => {
       {/* Issues list */}
       <div className="w-full max-w-5xl space-y-6 text-white">
         {bloackdata.map((data,inedx) => (
-          <div
-            key={inedx}
-            className="bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-2xl shadow-lg hover:from-gray-700 hover:to-gray-600 hover:shadow-xl transition"
+          <Link key={inedx} to={`/${data.args.Touristaddress}`} ><div
+            className="bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-2xl shadow-lg hover:from-gray-700 hover:to-gray-600 hover:shadow-xl transition mb-2"
           >
             {/* Issue Details */}
             <div className="flex flex-col space-y-2">
@@ -85,6 +84,7 @@ const IssuesDashboard = () => {
               </div>
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>
