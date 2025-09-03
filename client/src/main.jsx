@@ -9,6 +9,7 @@ import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.js
 
 import DashboardPage from './pages/DashboardPage.jsx'
 import GovernmentVerificationPage from './pages/VerifyPage.jsx'
+import IssuesDashboard from './pages/IssuesDashboard.jsx'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,12 @@ const router = createBrowserRouter([
           <ProtectRoute>
               <DashboardPage />
           </ProtectRoute>
+        )
+      },
+      {
+        path: "/issue",
+        element: (
+            <IssuesDashboard />
         )
       },
       {
