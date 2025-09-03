@@ -82,7 +82,7 @@ PdfRouter.post("/sendmail", (req, res) => {
         
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ success: false, error: "Failed to send email" });
+        return res.status(500).json({ success: false, error: err });
     }
 });
 export default PdfRouter;
