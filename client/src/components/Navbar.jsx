@@ -65,28 +65,30 @@ const ExitToAppIcon = (props) => (
 const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileRef = useRef(null);
-    const [userdetils,setuserdetils]=useState({})
-    const fecthdata=async()=>{
-    const url = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/fethalldata`
-    const res = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'accessToken': localStorage.getItem('accessToken')
-      },
-    })
-    const data = await res.json()
-    console.log(data)
-    setuserdetils(data.message)
-    setIsProfileOpen(prev => !prev)
-    }
-    const logout=()=>{
+    const [userdetils, setuserdetils] = useState({})
+
+
+    const logout = () => {
         localStorage.clear();
         window.location.reload()
     }
 
     // Close the profile dropdown if the user clicks outside of it
     useEffect(() => {
+        const fecthdata = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/fethalldata`
+            const res = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'accessToken': localStorage.getItem('accessToken')
+                },
+            })
+            const data = await res.json()
+            console.log(data)
+            setuserdetils(data.message)
+        }
+        fecthdata()
         const handleClickOutside = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
                 setIsProfileOpen(false);
@@ -112,7 +114,7 @@ const Navbar = () => {
                 {/* Profile icon */}
                 <div
                     className="flex items-center justify-center text-3xl cursor-pointer p-2 rounded-full hover:bg-gray-700 transition-colors"
-                    onClick={() => fecthdata()}
+                    onClick={() => setIsProfileOpen(prev => !prev)}
                 >
                     <UserShieldIcon />
                 </div>
