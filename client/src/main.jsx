@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/issue",
+        path: "/allturist",
         element: (
             <IssuesDashboard />
         )

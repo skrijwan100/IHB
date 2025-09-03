@@ -65,6 +65,25 @@ const ExitToAppIcon = (props) => (
 const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileRef = useRef(null);
+    const [userdetils,setuserdetils]=useState({})
+    const fecthdata=async()=>{
+    const url = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/fethalldata`
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'accessToken': localStorage.getItem('accessToken')
+      },
+    })
+    const data = await res.json()
+    console.log(data)
+    setuserdetils(data.message)
+    setIsProfileOpen(prev => !prev)
+    }
+    const logout=()=>{
+        localStorage.clear();
+        window.location.reload()
+    }
 
     // Close the profile dropdown if the user clicks outside of it
     useEffect(() => {
@@ -86,7 +105,6 @@ const Navbar = () => {
                 <div className='flex items-center justify-center text-4xl text-cyan-400'>
                     <ShieldVirusIcon />
                 </div>
-                <h1 className='text-xl font-bold sm:block hidden'>SecureApp</h1>
             </div>
 
             {/* Right side - User icon and Profile Dropdown */}
@@ -94,7 +112,7 @@ const Navbar = () => {
                 {/* Profile icon */}
                 <div
                     className="flex items-center justify-center text-3xl cursor-pointer p-2 rounded-full hover:bg-gray-700 transition-colors"
-                    onClick={() => setIsProfileOpen(prev => !prev)}
+                    onClick={() => fecthdata()}
                 >
                     <UserShieldIcon />
                 </div>
@@ -116,8 +134,8 @@ const Navbar = () => {
                                     <UserShieldIcon className="text-2xl text-cyan-400" />
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-white">John Doe</p>
-                                    <p className="text-sm text-gray-400">john.doe@example.com</p>
+                                    <p className="font-semibold text-white">{userdetils.fullname}</p>
+                                    <p className="text-sm text-gray-400">{userdetils.email}</p>
                                 </div>
                             </div>
 
@@ -127,7 +145,7 @@ const Navbar = () => {
                             {/* Logout Button */}
                             <button
                                 className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-md transition-colors duration-200"
-                                onClick={() => alert('Logout clicked!')}
+                                onClick={logout}
                             >
                                 <ExitToAppIcon className="text-xl" />
                                 <span>Logout</span>

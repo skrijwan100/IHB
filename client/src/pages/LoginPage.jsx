@@ -73,7 +73,7 @@ export default function LoginPage() {
   return (
     <div className="bg-gray-900 text-white min-h-screen font-sans">
       {/* Navbar */}
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* Main Content */}
       <main className="min-h-screen flex items-center justify-center pt-20 px-4">

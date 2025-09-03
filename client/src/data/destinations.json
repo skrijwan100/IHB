@@ -6,7 +6,10 @@
     "description": "Marvel at this UNESCO World Heritage monument, an epitome of love and Mughal architecture.",
     "image": "https://s7ap1.scene7.com/is/image/incredibleindia/taj-mahal-agra-uttar-pradesh-1-attr-hero?qlt=82&ts=1726650384852",
     "temp": "28°C",
-    "tags": ["UNESCO Site", "Architecture", "Romance"]
+    "tags": [
+      "Safety: High",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 2,
@@ -15,7 +18,10 @@
     "description": "Experience tranquil houseboat rides through emerald backwaters and lush coconut groves.",
     "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/f3/1b/4a/alleppey-backwater-cruise.jpg?w=900&h=500&s=1",
     "temp": "30°C",
-    "tags": ["Houseboats", "Nature", "Peaceful"]
+    "tags": [
+      "Safety: Medium",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 3,
@@ -24,7 +30,10 @@
     "description": "Relax on golden beaches, enjoy vibrant nightlife, and savor delicious seafood.",
     "image": "https://imagedelivery.net/y9EHf1toWJTBqJVsQzJU4g/www.indianholiday.com/2025/06/Palolem-Beach1-1.png/w=650,h=353",
     "temp": "32°C",
-    "tags": ["Beaches", "Nightlife", "Culture"]
+    "tags": [
+      "Safety: Medium–High",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 4,
@@ -33,7 +42,10 @@
     "description": "Discover royal heritage in majestic palaces, forts, and desert landscapes.",
     "image": "https://cdn.tajhotels.com/images/ocl5w36p/prod5/02d5266ba2e7a05097c8aa5c6f5533095f8b50fc-3840x1860.jpg",
     "temp": "26°C",
-    "tags": ["Palaces", "Desert", "Heritage"]
+    "tags": [
+      "Safety: Medium",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 5,
@@ -42,7 +54,10 @@
     "description": "Witness centuries-old rituals on the banks of the Ganges River in India’s holiest city.",
     "image": "https://www.sotc.in/blog/wp-content/uploads/2024/04/Varanasi-Ghat-2.jpg",
     "temp": "29°C",
-    "tags": ["Spiritual", "Culture", "Heritage"]
+    "tags": [
+      "Safety: Medium",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 6,
@@ -51,7 +66,10 @@
     "description": "Trek through the breathtaking Himalayan ranges, with snow-clad peaks and valleys.",
     "image": "https://www.himalayanecotourism.com/wp-content/uploads/2023/06/hampta-pass-1.jpg",
     "temp": "15°C",
-    "tags": ["Trekking", "Mountains", "Adventure"]
+    "tags": [
+      "Safety: Medium",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 7,
@@ -60,7 +78,10 @@
     "description": "Experience peace and devotion at the Golden Temple, a symbol of Sikh spirituality.",
     "image": "https://s7ap1.scene7.com/is/image/incredibleindia/1-sri-harmandir-sahib-(golden-temple)-amritsar-punjab-attr-hero?qlt=82&ts=1726662069037",
     "temp": "27°C",
-    "tags": ["Spiritual", "Sikhism", "Heritage"]
+    "tags": [
+      "Safety: High",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   },
   {
     "id": 8,
@@ -69,6 +90,9 @@
     "description": "Explore the iconic Gateway of India and Mumbai’s vibrant culture and lifestyle.",
     "image": "https://s7ap1.scene7.com/is/image/incredibleindia/gateway-of-india-mumbai-maharashtra-2-attr-hero?qlt=82&ts=1742162842869",
     "temp": "31°C",
-    "tags": ["City Life", "History", "Culture"]
+    "tags": [
+      "Safety: Medium",
+      "Budget per day: ₹3,858 (~$44)"
+    ]
   }
 ]

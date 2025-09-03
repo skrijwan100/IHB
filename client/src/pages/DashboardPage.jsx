@@ -95,7 +95,7 @@ const DashboardPage = () => {
   return (
 
     <main className="w-full min-h-screen bg-gray-50">
-      {/* <Navbar/> */}
+      <Navbar/>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-white">
         {/* Background Image */}
@@ -214,11 +214,11 @@ const DashboardPage = () => {
           )}
 
           {/* Emergency Active Indicator */}
-          {isEmergencyActive && (
-            <div className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse z-40">
+          {/* {isEmergencyActive && ( */}
+            <div className="fixed top-32 right-4 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse z-40">
               🚨 Emergency Active
             </div>
-          )}
+          {/* )} */}
           {/* Stats */}
           <div className="mt-14 flex flex-wrap justify-center gap-6 md:gap-12 text-lg font-semibold">
             {[

@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Calendar, MapPinHouse ,Shield, User, Phone, MapPin, Clock, Wallet, AlertTriangle, CheckCircle, ExternalLink, RefreshCw } from 'lucide-react';
+import { Calendar, MapPinHouse ,Shield, User, Phone, MapPin, Clock, Wallet, CheckCircle } from 'lucide-react';
 import { ethers, BrowserProvider } from 'ethers';
 import { keccak256, toUtf8Bytes } from "ethers";
 import Trutiscontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
 import { QRCodeCanvas } from 'qrcode.react'
 import { handleError, handleSuccess } from "./ErrorMessage"
+import { Link } from 'react-router';
 const OfficerTouristRegistration = () => {
     const qrRef = useRef()
     const { ethereum } = window;
@@ -529,7 +530,7 @@ const OfficerTouristRegistration = () => {
                             </div>
                             <div>
                                 <h1 className="text-xl font-semibold text-gray-900">Tourist ID Registration</h1>
-                                <p className="text-sm text-gray-600">Officer Portal</p>
+                                <Link to="/allturist"><p className="text-sm text-gray-600">Officer Portal</p></Link>
                             </div>
                         </div>
                         <div

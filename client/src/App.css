@@ -1,0 +1,12 @@
+.bigloder {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border: 10px solid rgba(0, 255, 213, 0.807);
+  border-top: 10px solid #2e6dff;
+  /* purple-700 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+  vertical-align: middle;
+}
