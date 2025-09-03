@@ -21,22 +21,22 @@ const DashboardPage = () => {
     if ("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log("Permission granted ✅");
-      console.log("Latitude:", position.coords.latitude);
-      console.log("Longitude:", position.coords.longitude);
+      //console.log("Permission granted ✅");
+      //console.log("Latitude:", position.coords.latitude);
+      //console.log("Longitude:", position.coords.longitude);
       setloc1(position.coords.latitude)
       setloc2(position.coords.longitude)
     },
     (error) => {
       if (error.code === error.PERMISSION_DENIED) {
-        console.log("User denied the request ❌");
+        //console.log("User denied the request ❌");
       } else {
-        console.log("Error:", error.message);
+        //console.log("Error:", error.message);
       }
     }
   );
 } else {
-  console.log("Geolocation not supported in this browser.");
+  //console.log("Geolocation not supported in this browser.");
 }
     let timer;
     if (countdown > 0) {
@@ -57,7 +57,7 @@ const DashboardPage = () => {
       },
     })
     const data = await res.json()
-    console.log(data)
+    //console.log(data)
     setUserdata(data.message)
     setShowModal(true);
   };
@@ -82,7 +82,7 @@ const DashboardPage = () => {
 
     })
     const data= await res.json()
-    console.log(data)
+    //console.log(data)
     // Simulate emergency service activation
     // alert('🚨 Emergency services have been contacted!\n\n📞 Calling: 112 (Emergency)\n📍 Location shared with authorities\n📱 Emergency contacts notified');
     setTimeout(() => setIsEmergencyActive(false), 5000);

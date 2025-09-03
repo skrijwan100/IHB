@@ -29,19 +29,19 @@ export default function LoginPage() {
   //   if ("geolocation" in navigator) {
   //     navigator.geolocation.getCurrentPosition(
   //       (position) => {
-  //         console.log("Permission granted ✅");
+  //         //console.log("Permission granted ✅");
   //       },
   //       (error) => {
   //         if (error.code === error.PERMISSION_DENIED) {
-  //           console.log("User denied the request ❌");
+  //           //console.log("User denied the request ❌");
   //            alert('We need permission for your sefty.')
   //         } else {
-  //           console.log("Error:", error.message);
+  //           //console.log("Error:", error.message);
   //         }
   //       }
   //     );
   //   } else {
-  //     console.log("Geolocation not supported in this browser.");
+  //     //console.log("Geolocation not supported in this browser.");
   //   }
   // }, [])
 

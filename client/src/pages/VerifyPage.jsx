@@ -51,13 +51,13 @@ const GovernmentVerificationPage = () => {
 
             const allvote = await getcontarct.filters.SaveTourist(id);
             const getEvent = await getcontarct.queryFilter(allvote)
-            console.log(getEvent)
+            //console.log(getEvent)
             setbloackdata(getEvent)
             setIsLoading(false)
             setfecthdone(true)
 
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             handleError("This is Invalid Id")
             return setIsLoading(false)
         }
@@ -72,7 +72,7 @@ const GovernmentVerificationPage = () => {
                 },
             })
             const data= await res.json()
-            console.log(data)
+            //console.log(data)
     }
     useEffect(() => {
         fecthBlockdata()
