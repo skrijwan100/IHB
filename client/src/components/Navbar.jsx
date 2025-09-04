@@ -3,6 +3,8 @@ import { FaShieldVirus, FaUserShield } from "react-icons/fa6";
 import { MdDone, MdExitToApp } from 'react-icons/md';
 import { TbCopy } from 'react-icons/tb';
 import { FaUser } from "react-icons/fa";
+import userStore from "../store/userStore.js"
+import { useNavigate } from 'react-router-dom';
 
 
 const ShieldVirusIcon = (props) => (
@@ -66,11 +68,13 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileRef = useRef(null);
     const [userdetils, setuserdetils] = useState({})
+    const { isLoading, error, message, logOut } = userStore();
+    const navigate = useNavigate();
 
 
-    const logout = () => {
-        localStorage.clear();
-        window.location.reload()
+    const logout = async () => {
+        await logOut();
+        navigate("/");
     }
 
     // Close the profile dropdown if the user clicks outside of it
