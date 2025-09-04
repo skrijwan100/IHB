@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import userStore from "../store/userStore.js";
 import { useNavigate } from "react-router-dom";
+import avfar from "../assets/avter.png"
 
 export default function LoginPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -77,12 +78,12 @@ export default function LoginPage() {
 
       {/* Main Content */}
       <main className="min-h-screen flex items-center justify-center pt-20 px-4">
-        <div className="w-full max-w-5xl bg-gray-800 rounded-2xl shadow-2xl overflow-hidden md:grid md:grid-cols-2">
+        <div className="w-full max-w-7xl bg-gray-800 rounded-2xl shadow-2xl overflow-hidden md:grid md:grid-cols-2">
           {/* Column 1: Image */}
           <div className="hidden md:block">
             <img
               className="w-full h-full object-cover"
-              src="https://placehold.co/800x800/000000/FFFFFF?text=Welcome\nBack"
+              src={avfar}
               alt="Promotional background image showing a modern workspace"
             />
           </div>
