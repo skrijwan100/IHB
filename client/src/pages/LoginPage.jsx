@@ -122,7 +122,7 @@ export default function LoginPage() {
                   htmlFor="appId"
                   className="block mb-2 text-sm font-medium text-gray-300"
                 >
-                  Application ID
+                  Smart ID
                 </label>
                 <input
                   type="text"
@@ -131,7 +131,7 @@ export default function LoginPage() {
                   value={smartID}
                   onChange={(e) => setSmartID(e.target.value)}
                   className="bg-gray-700 border border-gray-600 text-white text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 transition-shadow duration-200 placeholder-gray-400"
-                  placeholder="e.g., APP-12345678"
+                  placeholder="e.g., 0x892583A6C1589D7EEA90e98ba848bc311A43f672"
                   required
                 />
               </div>

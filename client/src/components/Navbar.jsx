@@ -112,6 +112,11 @@ const Navbar = () => {
                     <ShieldVirusIcon />
                 </div>
             </div>
+            <div className='flex gap-4'>
+                <div>Home</div>
+                <div>Feedback</div>
+                <div>Post</div>
+            </div>
 
             {/* Right side - User icon and Profile Dropdown */}
             <div className='relative' ref={profileRef}>
