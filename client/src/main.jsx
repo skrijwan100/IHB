@@ -10,6 +10,9 @@ import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.js
 import DashboardPage from './pages/DashboardPage.jsx'
 import GovernmentVerificationPage from './pages/VerifyPage.jsx'
 import IssuesDashboard from './pages/IssuesDashboard.jsx'
+import FeedBack from './components/FeedBack.jsx'
+import Feedback from './components/FeedBack.jsx'
+import KashmirDetailPage from './components/GiveFeedBack.jsx'
 
 const router = createBrowserRouter([
   {
@@ -49,7 +52,19 @@ const router = createBrowserRouter([
         element: (
               <GovernmentVerificationPage />
         )
-      }
+      },
+      {
+        path:"/feedback",
+        element:(
+          <Feedback/>
+        )
+      },
+      {
+        path:"/feedback/:id",
+        element:(
+         <KashmirDetailPage/>
+        )
+      },
     ]
   }
 ])

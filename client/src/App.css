@@ -10,3 +10,20 @@
   margin: 0 auto;
   vertical-align: middle;
 }
+.loder {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 4px solid rgba(83, 109, 105, 0.807);
+  border-top: 4px solid #5083f8;
+  /* purple-700 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -4,7 +4,7 @@ import { MdDone, MdExitToApp } from 'react-icons/md';
 import { TbCopy } from 'react-icons/tb';
 import { FaUser } from "react-icons/fa";
 import userStore from "../store/userStore.js"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const ShieldVirusIcon = (props) => (
@@ -113,8 +113,8 @@ const Navbar = () => {
                 </div>
             </div>
             <div className='flex gap-4'>
-                <div>Home</div>
-                <div>Feedback</div>
+                <Link to="/"><div>Home</div></Link>
+               <Link to="/feedback"><div>Feedback</div></Link> 
                 <div>Post</div>
             </div>
 
