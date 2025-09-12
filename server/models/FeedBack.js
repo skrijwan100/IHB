@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 const FeedbackSchema = new mongoose.Schema({
+  place:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Place',
+    require:true
+
+  },
   name:{
     type:String,
     require:true,
@@ -16,6 +22,6 @@ const FeedbackSchema = new mongoose.Schema({
     type:String,
     require:true
   }
-})
+},{ timestamps: true })
 const Feedback = mongoose.model("Feedback", FeedbackSchema);
 export default Feedback;

@@ -4,7 +4,7 @@ import { MapPin, Upload, User } from 'lucide-react';
 import { handleError, handleSuccess } from './ErrorMessage';
 import axios from 'axios';
 import { Link, useParams } from 'react-router';
-const AddPlaceForm = ({ onCancel }) => {
+const AddPlaceForm = ({ onCancel,setreloaddata }) => {
     const [formData, setFormData] = useState({
         name: '',
         tags: '',
@@ -13,8 +13,6 @@ const AddPlaceForm = ({ onCancel }) => {
         LocUrl: '',
         temperature: '',
     });
-
-
     const [img, setimg] = useState()
     const [Loder, setLoder] = useState(false)
     const handleImageUpload = (e) => {
@@ -58,6 +56,7 @@ const AddPlaceForm = ({ onCancel }) => {
             setLoder(false)
             return handleError("Some error happend")
         }
+        setreloaddata(true)
     };
 
     return (
@@ -148,6 +147,7 @@ const AddPlaceForm = ({ onCancel }) => {
 const Feedback = () => {
     const [destinationss, setdestinations] = useState([])
     const [mainloder,setMainloder]=useState(false)
+    const [reloaddata,setreloaddata]=useState(false)
     useEffect(() => {
         const fecthdata = async () => {
             setMainloder(true)
@@ -165,7 +165,7 @@ const Feedback = () => {
         }
         fecthdata()
 
-    }, [])
+    }, [reloaddata])
 
     const [showForm, setShowForm] = useState(false);
    
@@ -245,6 +245,7 @@ const Feedback = () => {
             {showForm && (
                 <AddPlaceForm
                     onCancel={() => setShowForm(false)}
+                    setreloaddata={setreloaddata}
                 />
             )}
 
