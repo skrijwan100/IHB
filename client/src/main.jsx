@@ -13,6 +13,8 @@ import IssuesDashboard from './pages/IssuesDashboard.jsx'
 import FeedBack from './components/FeedBack.jsx'
 import Feedback from './components/FeedBack.jsx'
 import KashmirDetailPage from './components/GiveFeedBack.jsx'
+import TourGuideForm from './pages/TourGuideForm.jsx'
+import Conversion from './pages/Conversion.jsx'
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,18 @@ const router = createBrowserRouter([
         path:"/feedback/:id",
         element:(
          <KashmirDetailPage/>
+        )
+      },
+      {
+        path:"/tourguide",
+        element:(
+         <TourGuideForm/>
+        )
+      },
+      {
+        path:"/conversion",
+        element:(
+         <Conversion/>
         )
       },
     ]
