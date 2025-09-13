@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { User, X, Send } from 'lucide-react';
+import { User, X, Send, UserPlus } from 'lucide-react';
 import conversionStore from "../store/conversionStore.js";
 import {timeAgo} from "../constants/constant.js"
 
@@ -13,7 +13,7 @@ const MoreIcon = () => (
 const PostCard = ({ post }) => {
     console.log("Post:", post);
   return (
-    <div className="flex space-x-4 p-4 border-b border-gray-700">
+    <div className="flex space-x-4 p-4 border-b border-gray-700 ">
       <User />
       <div className="flex-1">
         <div className="flex justify-between items-center">
@@ -22,7 +22,7 @@ const PostCard = ({ post }) => {
             <span className="text-gray-500">·</span>
             <span className="text-gray-500">{timeAgo(post?.createdAt)}</span>
           </div>
-          <MoreIcon />
+          <UserPlus className='cursor-pointer'  />
         </div>
         <p className="mt-1">{post?.content}</p>
       </div>
@@ -129,64 +129,7 @@ const Conversion = () => {
   
   console.log("All Conversions:", allConversions);
 
-  const postsData = [
-    {
-      id: 1,
-      name: 'Narendra Modi',
-      handle: '@narendramodi',
-      time: '4h',
-      avatar: 'https://placehold.co/48x48/1A202C/FFFFFF?text=NM',
-      text: 'I will be attending programmes in Churachandpur and Imphal tomorrow, 13th September. We are fully committed to furthering inclusive and all-round development of Manipur. The foundation stone for road projects, National Highway projects, women hostels and more would be laid. The...',
-      stats: {
-        comments: '541',
-        retweets: '1.6K',
-        likes: '9.4K',
-        views: '614K'
-      }
-    },
-    {
-      id: 2,
-      name: 'Narendra Modi',
-      handle: '@narendramodi',
-      time: '4h',
-      avatar: 'https://placehold.co/48x48/1A202C/FFFFFF?text=NM',
-      text: 'Tomorrow evening in Guwahati, I will take part in the birth centenary celebrations of the great Bhupen Hazarika Ji. His contribution to our culture, especially Assamese music and literature, is monumental. His works continue to be popular across generations.',
-      stats: {
-        comments: '248',
-        retweets: '1.3K',
-        likes: '8.3K',
-        views: '467K'
-      }
-    },
-    {
-      id: 3,
-      name: 'Narendra Modi',
-      handle: '@narendramodi',
-      time: '4h',
-      avatar: 'https://placehold.co/48x48/1A202C/FFFFFF?text=NM',
-      text: 'I look forward to being among my sisters and brothers in Aizawl tomorrow, 13th September. This visit is very special because this wonderful city is going to be connected to the railway network for the very first time with the inauguration of the Bairabi-Sairang New Rail line. This has been built in very challenging terrain and includes several major and minor bridges. The coming of railway connectivity will boost commerce and tourism.',
-      stats: {
-        comments: '283',
-        retweets: '1.8K',
-        likes: '11K',
-        views: '677K'
-      }
-    },
-    {
-      id: 4,
-      name: 'Narendra Modi',
-      handle: '@narendramodi',
-      time: '4h',
-      avatar: 'https://placehold.co/48x48/1A202C/FFFFFF?text=NM',
-      text: 'Over the next few days, on 13th, 14th and 15th September, I will be attending programmes in Mizoram, Manipur, Assam, West Bengal and Bihar which are aimed at boosting ‘Ease of Living.’ These projects will have a very positive impact on people’s lives, especially towards boosting connectivity, job creation and more.',
-      stats: {
-        comments: '312',
-        retweets: '2.1K',
-        likes: '15K',
-        views: '812K'
-      }
-    }
-  ];
+  
 
   return (
     <div className="bg-[#000000] min-h-screen font-sans">
@@ -195,7 +138,7 @@ const Conversion = () => {
       </div>
       <main>
         <div className="bg-[#000000] text-white max-w-4xl pt-[5rem] mx-auto border-x border-gray-700 min-h-screen">
-          <div>
+          <div className='flex flex-col-reverse'>
             {allConversions?.map(post => <PostCard key={post._id} post={post} />)}
           </div>
         </div>

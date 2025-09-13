@@ -4,6 +4,7 @@ import destinations from "../data/destinations.json";
 import { MapPin, Search, User, ShieldAlert, AlertTriangle, Phone } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
+import TourGuideCard from "./tourguides";
 
 const DashboardPage = () => {
   const handleclick = (id) => {
@@ -294,6 +295,7 @@ const DashboardPage = () => {
           ))}
         </div>
       </section>
+      <TourGuideCard/>
     </main>
   );
 };

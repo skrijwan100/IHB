@@ -115,7 +115,7 @@ const Navbar = () => {
             <div className='flex gap-4'>
                 <Link to="/"><div>Home</div></Link>
                <Link to="/feedback"><div>Feedback</div></Link> 
-                <div>Post</div>
+                <Link to="/conversion"><div>Post</div></Link>
             </div>
 
             {/* Right side - User icon and Profile Dropdown */}
