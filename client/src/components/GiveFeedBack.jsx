@@ -61,7 +61,7 @@ const KashmirDetailPage = () => {
         body: JSON.stringify({ name: name, nationality: nationality, rating: rating, Feedbackdisc: Feedbackdisc, id: id })
       })
       const data = await res.json()
-      console.log(data)
+      //console.log(data)
       if (!data.status) {
         setLoder(false)
         return handleError("Server Error try again!")

@@ -1,6 +1,7 @@
 import express from "express"
 import User from "../models/User.js";
 import { fecthuer } from "../middleware/fecthuser.js";
+import {verifyLogin} from "../middleware/authMiddleware.js"
 const UserRouter = express.Router();
 
 UserRouter.post("/savedata", (req, res) => {
@@ -39,5 +40,16 @@ UserRouter.get("/fethalldata", fecthuer, async (req, res) => {
     return res.status(505).json({ "Status": false, "error": "Internal server error" })
   }
 })
-
+UserRouter.post("/fethdatausename",fecthuer,async(req,res)=>{
+  try {
+    const {fullName}=req.body
+    const userdata = await User.find({ fullname: fullName }).select("-famphno -ownphno -passportID -tripst -trioend -smartID");
+    return res.status(200).json({"status":true,"message":userdata})
+    
+  } catch (error) {
+    console.log(error)
+    return res.status(505).json({ "Status": false, "message": "Internal server error" ,"error":error})
+    
+  }
+})
 export default UserRouter

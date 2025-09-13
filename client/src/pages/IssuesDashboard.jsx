@@ -19,8 +19,8 @@ const IssuesDashboard = () => {
         method: 'eth_requestAccounts',
       })
       const fulladdress = account[0]
-      //console.log(fulladdress)
-      //console.log()
+      ////console.log(fulladdress)
+      ////console.log()
       if (fulladdress == `${import.meta.env.VITE_MY_ADDRESS.toLowerCase()}`) {
         const infuraProvider = new ethers.JsonRpcProvider(
           import.meta.env.VITE_INFURA_URL
@@ -33,7 +33,7 @@ const IssuesDashboard = () => {
 
         const allvote = await getcontarct.filters.SaveTourist();
         const getEvent = await getcontarct.queryFilter(allvote)
-        //console.log(getEvent)
+        ////console.log(getEvent)
         setbloackdata(getEvent)
         return setpre(true)
       }

@@ -16,7 +16,7 @@ const TourGuideCard = () => {
                     }
                 }
             );
-            console.log(response.data.data)
+            //console.log(response.data.data)
             setDetils(response.data.data)
 
         }

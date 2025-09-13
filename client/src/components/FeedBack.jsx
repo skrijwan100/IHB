@@ -17,7 +17,7 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
     const [Loder, setLoder] = useState(false)
     const handleImageUpload = (e) => {
         setimg(e.target.files[0]);
-        console.log(img)
+        //console.log(img)
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -52,7 +52,7 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
                 return setLoder(false)
             }
         } catch (error) {
-            console.log("Upload Error:", error);
+            //console.log("Upload Error:", error);
             setLoder(false)
             return handleError("Some error happend")
         }
@@ -157,7 +157,7 @@ const Feedback = () => {
                     "Authorization": localStorage.getItem("accessToken")
                 }
             });
-            console.log(responce.data.data)
+            //console.log(responce.data.data)
 
             setdestinations(responce.data.data)
             setMainloder(false)

@@ -60,10 +60,10 @@ const OfficerTouristRegistration = () => {
             }),
         })
         const data1 = await res1.json();
-        //console.log(data1);
+        ////console.log(data1);
 
         const data = await res.json();
-        //console.log(data);
+        ////console.log(data);
         if (!data.success) {
             return handleError("Mail is not due to error")
         }
@@ -111,7 +111,7 @@ const OfficerTouristRegistration = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        //console.log(formData.startDate, formData.endDate)
+        ////console.log(formData.startDate, formData.endDate)
         if (!formData.fullName.trim()) {
             newErrors.fullName = 'Full name is required';
         }
@@ -180,16 +180,16 @@ const OfficerTouristRegistration = () => {
             formData.endDate
         )
         await submitTrutisdata.wait()
-        //console.log(submitTrutisdata)
+        ////console.log(submitTrutisdata)
         setTnx(submitTrutisdata.hash)
         // setTrustid(submitTrutisdata.to)
         setIsSubmitting(false);
         setShowConfirmation(true);
         // if (showConfirmation) {
-        //console.log("hiiiiiiii")
+        ////console.log("hiiiiiiii")
         const submitTrutisdataget = await TrutistTnx.filters.SaveTourist()
         const event = await TrutistTnx.queryFilter(submitTrutisdataget)
-        //console.log(event)
+        ////console.log(event)
         for (let i = 0; i < event.length; i++) {
             if (hashedpass == event[i].args.Passhash) {
                 setTrustid(event[i].args.Touristaddress)

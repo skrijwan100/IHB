@@ -23,7 +23,7 @@ const userStore = create((set, get) => ({
                     isLoading: false
                 });
 
-                console.log("from store", { accessToken, user });
+                //console.log("from store", { accessToken, user });
             } else {
                 set({ user: null, isAuthenticated: false, isLoading: false });
             }
