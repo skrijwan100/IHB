@@ -1,44 +1,92 @@
-import React from "react";
+
+import React, { useState, useEffect, useRef } from 'react';
 import tajmahal from "../assets/tajmahal.png";
 import destinations from "../data/destinations.json";
 import { MapPin, Search, User, ShieldAlert, AlertTriangle, Phone } from "lucide-react";
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
 import TourGuideCard from "./tourguides";
-
+import { TypeAnimation } from 'react-type-animation';
+import { useUserName } from '../contexts/usenamcontext.jsx';
+import TouristPlatformFooter from "./Footer.jsx";
+import BestStayHotels from "./HotlesList.jsx";
+import TopDestinations from './Topdestonation.jsx';
 const DashboardPage = () => {
   const handleclick = (id) => {
     document.querySelector(id)?.scrollIntoView({
       behavior: 'smooth'
     });
   }
+  const [visibleCards, setVisibleCards] = useState(new Set());
+  const cardRefs = useRef([]);
   const [showModal, setShowModal] = useState(false);
   const [countdown, setCountdown] = useState(null);
   const [isEmergencyActive, setIsEmergencyActive] = useState(false);
-  const [userdata,setUserdata]=useState({})
-  const [loc1,setloc1]=useState('')
-  const [loc2,setloc2]=useState('')
+  const [userdata, setUserdata] = useState({})
+  const [loc1, setloc1] = useState('')
+  const [loc2, setloc2] = useState('')
+  const [username, setusername] = useState('')
+  const [Mainloder, setMainloder] = useState(false)
+  const [UserName, setUserName] = useUserName()
   useEffect(() => {
-    if ("geolocation" in navigator) {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      ////console.log("Permission granted ✅");
-      ////console.log("Latitude:", position.coords.latitude);
-      ////console.log("Longitude:", position.coords.longitude);
-      setloc1(position.coords.latitude)
-      setloc2(position.coords.longitude)
-    },
-    (error) => {
-      if (error.code === error.PERMISSION_DENIED) {
-        ////console.log("User denied the request ❌");
-      } else {
-        ////console.log("Error:", error.message);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cardId = parseInt(entry.target.dataset.cardId);
+            setVisibleCards(prev => new Set([...prev, cardId]));
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       }
+    );
+
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+
+    const fecthdata = async () => {
+      setMainloder(true)
+      const url = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/fethalldata`
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'accessToken': localStorage.getItem('accessToken')
+        },
+      })
+      const data = await res.json()
+      // console.log(data)
+      setusername(data.message.fullname)
+      setMainloder(false)
     }
-  );
-} else {
-  ////console.log("Geolocation not supported in this browser.");
-}
+    fecthdata()
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          ////console.log("Permission granted ✅"); 
+          ////console.log("Latitude:", position.coords.latitude);
+          ////console.log("Longitude:", position.coords.longitude);
+          setloc1(position.coords.latitude)
+          setloc2(position.coords.longitude)
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            ////console.log("User denied the request ❌");
+          } else {
+            ////console.log("Error:", error.message);
+          }
+        }
+      );
+    } else {
+      console.log("Geolocation not supported in this browser.");
+    }
     let timer;
     if (countdown > 0) {
       timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -66,23 +114,23 @@ const DashboardPage = () => {
     setShowModal(false);
     setCountdown(null);
   };
-  const handleConfirmEmergency = async() => {
+  const handleConfirmEmergency = async () => {
     setIsEmergencyActive(true);
     setShowModal(false);
     setCountdown(null);
     const url = `${import.meta.env.VITE_BACKEND_URL}/api/v3/sendalert/sendsms`
-    const res= await fetch(url,{
-      method:"POST",
-      headers:{"Content-Type": "application/json"},
-      body:JSON.stringify({
-        phoneno:userdata.ownphno,
-        name:userdata.fullname,
-        location1:loc1,
-        location2:loc2
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phoneno: userdata.ownphno,
+        name: userdata.fullname,
+        location1: loc1,
+        location2: loc2
       })
 
     })
-    const data= await res.json()
+    const data = await res.json()
     ////console.log(data)
     // Simulate emergency service activation
     // alert('🚨 Emergency services have been contacted!\n\n📞 Calling: 112 (Emergency)\n📍 Location shared with authorities\n📱 Emergency contacts notified');
@@ -92,11 +140,18 @@ const DashboardPage = () => {
   const startCountdown = () => {
     setCountdown(5);
   };
+  if (Mainloder) {
+    return (
+      <div className="min-h-screen bg-gray-800">
+        <div className='w-full h-[80vh] flex justify-center items-center '><div className='bigloder'></div></div>
+      </div>
+    )
+  }
 
   return (
 
     <main className="w-full min-h-screen bg-gray-50">
-      <Navbar/>
+      <Navbar />
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-white">
         {/* Background Image */}
@@ -111,9 +166,22 @@ const DashboardPage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center max-w-4xl px-6">
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight drop-shadow-lg">
+          <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              `Welcome ${username}`,
+              4000,
+              "Discover Incredible India",
+              4000, // wait 1s before replacing "Mice" with "Hamsters"
+
+            ]}
+            speed={40}
+            repeat={Infinity}
+            className="text-5xl md:text-6xl font-bold leading-tight drop-shadow-lg"
+          />
+          {/* <h1 className="text-5xl md:text-6xl font-bold leading-tight drop-shadow-lg">
             Discover <span className="text-orange-400">Incredible India</span>
-          </h1>
+          </h1> */}
           <p className="mt-4 text-lg md:text-xl text-gray-200">
             Explore ancient temples, vibrant cultures, majestic palaces – your
             unforgettable journey through India starts here.
@@ -219,7 +287,7 @@ const DashboardPage = () => {
             <div className="fixed top-32 right-4 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse z-40">
               🚨 Emergency Active
             </div>
-          )} 
+          )}
           {/* Stats */}
           <div className="mt-14 flex flex-wrap justify-center gap-6 md:gap-12 text-lg font-semibold">
             {[
@@ -240,62 +308,10 @@ const DashboardPage = () => {
       </section>
 
       {/* Top Destinations Section */}
-      <section id="allsopt" className="py-12 px-6  mx-auto bg-gray-900">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-white">
-          Top Destinations in <span className="text-orange-600">In<span className="text-white">d</span><span className="text-green-600">ia</span></span>
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {destinations.map((dest) => (
-            <div
-              key={dest.id}
-              className="bg-gray-800 rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition duration-300"
-            >
-              {/* Image & Overlay */}
-              <div className="relative overflow-hidden">
-                <img
-                  src={dest.image}
-                  alt={dest.name}
-                  className="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent rounded-t-2xl"></div>
-                <div className="absolute top-3 left-3 flex items-center gap-2 text-white text-sm font-medium bg-black/40 px-3 py-1 rounded-full">
-                  <MapPin size={16} /> {dest.temp}
-                </div>
-              </div>
-
-              {/* Card Content */}
-              <div className="p-5">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-white group-hover:text-orange-600 transition">
-                    {dest.name}
-                  </h3>
-                  <span className="text-gray-400 flex items-center text-sm gap-1">
-                    <User size={16} /> {dest.subtitle}
-                  </span>
-                </div>
-
-                <p className="mt-2 text-gray-300 text-sm leading-relaxed">
-                  {dest.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {dest.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full hover:bg-green-500 hover:text-white transition"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-      <TourGuideCard/>
+      <TopDestinations/>
+      <BestStayHotels />
+      <TourGuideCard />
+      <TouristPlatformFooter />
     </main>
   );
 };

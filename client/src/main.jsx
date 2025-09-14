@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import OfficerTouristRegistration from "./components/OffisirRgister.jsx"
-import {ProtectRoute, AuthenticatedUserRoute} from "./utils/userAuthenticated.jsx"
+import { ProtectRoute, AuthenticatedUserRoute } from "./utils/userAuthenticated.jsx"
 
 import DashboardPage from './pages/DashboardPage.jsx'
 import GovernmentVerificationPage from './pages/VerifyPage.jsx'
@@ -15,6 +15,7 @@ import Feedback from './components/FeedBack.jsx'
 import KashmirDetailPage from './components/GiveFeedBack.jsx'
 import TourGuideForm from './pages/TourGuideForm.jsx'
 import Conversion from './pages/Conversion.jsx'
+import UserNameContextProvider from './contexts/usenamcontext.jsx'
 
 const router = createBrowserRouter([
   {
@@ -32,51 +33,51 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-            <OfficerTouristRegistration />
+          <OfficerTouristRegistration />
         )
       },
       {
         path: "/dashboard",
         element: (
           <ProtectRoute>
-              <DashboardPage />
+            <DashboardPage />
           </ProtectRoute>
         )
       },
       {
         path: "/allturist",
         element: (
-            <IssuesDashboard />
+          <IssuesDashboard />
         )
       },
       {
         path: "/:id",
         element: (
-              <GovernmentVerificationPage />
+          <GovernmentVerificationPage />
         )
       },
       {
-        path:"/feedback",
-        element:(
-          <Feedback/>
+        path: "/feedback",
+        element: (
+          <Feedback />
         )
       },
       {
-        path:"/feedback/:id",
-        element:(
-         <KashmirDetailPage/>
+        path: "/feedback/:id",
+        element: (
+          <KashmirDetailPage />
         )
       },
       {
-        path:"/tourguide",
-        element:(
-         <TourGuideForm/>
+        path: "/tourguide",
+        element: (
+          <TourGuideForm />
         )
       },
       {
-        path:"/conversion",
-        element:(
-         <Conversion/>
+        path: "/conversion",
+        element: (
+          <Conversion />
         )
       },
     ]
@@ -85,6 +86,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <UserNameContextProvider>
+      <RouterProvider router={router} />
+    </UserNameContextProvider>
   </StrictMode>
 )

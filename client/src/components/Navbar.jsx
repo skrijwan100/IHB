@@ -5,7 +5,7 @@ import { TbCopy } from 'react-icons/tb';
 import { FaUser } from "react-icons/fa";
 import userStore from "../store/userStore.js"
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useUserName } from '../contexts/usenamcontext.jsx';
 
 const ShieldVirusIcon = (props) => (
     <svg
@@ -70,7 +70,7 @@ const Navbar = () => {
     const [userdetils, setuserdetils] = useState({})
     const { isLoading, error, message, logOut } = userStore();
     const navigate = useNavigate();
-
+    const [UserName, setUserName] = useUserName()
 
     const logout = async () => {
         await logOut();
@@ -89,9 +89,13 @@ const Navbar = () => {
                 },
             })
             const data = await res.json()
-            ////console.log(data)
+            console.log(data)
             setuserdetils(data.message)
+            setUserName(data.message.fullname)
+            
+
         }
+
         fecthdata()
         const handleClickOutside = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {

@@ -1,53 +1,70 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapPin, Star, Phone, Mail, Globe, Calendar, Award } from 'lucide-react';
-import axios from 'axios';
 
 const TourGuideCard = () => {
     const [hoveredCard, setHoveredCard] = useState(null);
     const [flippedCard, setFlippedCard] = useState(null);
-    const [detiles,setDetils]=useState([])
+    const [detiles, setDetils] = useState([]);
+    const [visibleCards, setVisibleCards] = useState(new Set());
+    const cardRefs = useRef([]);
+
     useEffect(() => {
         const fecthtourGuides = async () => {
-            const response = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/api/v5/tourguide/allTourGuides`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/v5/tourguide/allTourGuides`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
-                }
-            );
-            //console.log(response.data.data)
-            setDetils(response.data.data)
+                );
+                const data = await response.json();
+                setDetils(data.data || []);
+            } catch (error) {
+                console.error('Error fetching tour guides:', error);
+                // Fallback demo data
+                setDetils([
+                    {
+                        _id: '1',
+                        fullName: "Sayan Ali",
+                        email: "rijwansk329@gmail.com",
+                        phoneNumber: "9966332255",
+                        tourLocations: ["kolkata", "bardhaman"],
+                        languagesSpoken: ["English", "Bengali"],
+                        experience: "0",
+                        rating: 0,
+                        createdAt: { $date: "2025-09-13T14:32:27.191Z" }
+                    }
+                ]);
+            }
+        }
+        fecthtourGuides();
+    }, []);
 
-        }
-        fecthtourGuides()
-    },[])
-    const tourGuides = [
-        {
-            id: '68c46fa6f0a87ee9e54ca72c',
-            fullName: 'Rakesh',
-            email: 'rakesh10@gmail.com',
-            phoneNumber: '6294522656',
-            tourLocations: ['Delhi', 'Agra'],
-            languagesSpoken: ['Hindi', 'English'],
-            experience: '2',
-            rating: 0,
-            createdAt: '2025-09-12T19:08:22.745+00:00',
-            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
-        },
-        {
-            id: '68c5807b3ec6891091bc4d18',
-            fullName: 'Sayan Ali',
-            email: 'rijwansk329@gmail.com',
-            phoneNumber: '9966332255',
-            tourLocations: ['Kolkata', 'Darjeeling', 'Sundarbans'],
-            languagesSpoken: ['English', 'Bengali'],
-            experience: '0',
-            rating: 0,
-            createdAt: '2025-09-13T14:32:27.191+00:00',
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
-        }
-    ];
+    // Intersection Observer for scroll animations
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const cardId = entry.target.dataset.cardId;
+                        setVisibleCards(prev => new Set([...prev, cardId]));
+                    }
+                });
+            },
+            { 
+                threshold: 0.1, 
+                rootMargin: '0px 0px -50px 0px' 
+            }
+        );
+
+        cardRefs.current.forEach((ref) => {
+            if (ref) observer.observe(ref);
+        });
+
+        return () => observer.disconnect();
+    }, [detiles]);
 
     const handleCardFlip = (cardId) => {
         setFlippedCard(flippedCard === cardId ? null : cardId);
@@ -58,24 +75,47 @@ const TourGuideCard = () => {
             <Star
                 key={index}
                 size={16}
-                className={`${index < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                className={`${index < rating ? 'text-yellow-400 fill-current' : 'text-gray-400'
                     } transition-colors duration-200`}
             />
         ));
     };
 
+    // Helper function to handle date formatting
+    const formatDate = (dateObj) => {
+        if (dateObj && dateObj.$date) {
+            return new Date(dateObj.$date).toLocaleDateString('en-US', {
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+        return new Date(dateObj).toLocaleDateString('en-US', {
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-br bg-gray-800 p-8">
+        <div className="min-h-screen bg-gray-800 p-8">
             <div className="max-w-6xl mx-auto">
                 <h1 className="text-4xl font-bold text-center mb-12 text-white">
                     Professional Tour Guides
                 </h1>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                    {detiles.map((guide) => (
+                    {detiles.map((guide, index) => (
                         <div
                             key={guide._id}
-                            className="relative perspective-1000"
+                            ref={el => cardRefs.current[index] = el}
+                            data-card-id={guide._id}
+                            className={`relative perspective-1000 transition-all duration-700 transform ${
+                                visibleCards.has(guide._id) 
+                                    ? 'opacity-100 translate-y-0' 
+                                    : 'opacity-0 translate-y-8'
+                            }`}
+                            style={{
+                                transitionDelay: visibleCards.has(guide._id) ? `${index * 200}ms` : '0ms'
+                            }}
                             onMouseEnter={() => setHoveredCard(guide._id)}
                             onMouseLeave={() => setHoveredCard(null)}
                         >
@@ -86,7 +126,7 @@ const TourGuideCard = () => {
                                 {/* Front Side */}
                                 <div className="absolute inset-0 w-full h-full backface-hidden">
                                     <div
-                                        className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full overflow-hidden transform ${hoveredCard === guide._id ? 'scale-105 -translate-y-2' : ''
+                                        className={`bg-gray-800 border border-gray-700 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full overflow-hidden transform ${hoveredCard === guide._id ? 'scale-105 -translate-y-2' : ''
                                             }`}
                                     >
                                         {/* Header with gradient */}
@@ -111,35 +151,29 @@ const TourGuideCard = () => {
                                         {/* Content */}
                                         <div className="px-6 py-4 space-y-4">
                                             <div className="text-center">
-                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">
+                                                <h3 className="text-2xl font-bold text-white mb-1">
                                                     {guide.fullName}
                                                 </h3>
-                                                {/* <div className="flex justify-center items-center space-x-1 mb-3">
-                                                    {renderStars(guide.rating)}
-                                                    <span className="text-sm text-gray-500 ml-2">
-                                                        ({guide.rating === 0 ? 'New' : guide.rating})
-                                                    </span>
-                                                </div> */}
                                             </div>
 
                                             <div className="space-y-3">
-                                                <div className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 transition-colors">
-                                                    <MapPin size={18} className="text-blue-500" />
+                                                <div className="flex items-center space-x-3 text-gray-300 hover:text-blue-400 transition-colors">
+                                                    <MapPin size={18} className="text-blue-400" />
                                                     <span className="text-sm">
-                                                        {guide.tourLocations.slice(0, 2).join(', ')}
-                                                        {guide.tourLocations.length > 2 && ` +${guide.tourLocations.length - 2} more`}
+                                                        {guide.tourLocations.filter(loc => loc.trim()).slice(0, 2).join(', ')}
+                                                        {guide.tourLocations.filter(loc => loc.trim()).length > 2 && ` +${guide.tourLocations.filter(loc => loc.trim()).length - 2} more`}
                                                     </span>
                                                 </div>
 
-                                                <div className="flex items-center space-x-3 text-gray-600 hover:text-green-600 transition-colors">
-                                                    <Globe size={18} className="text-green-500" />
+                                                <div className="flex items-center space-x-3 text-gray-300 hover:text-green-400 transition-colors">
+                                                    <Globe size={18} className="text-green-400" />
                                                     <span className="text-sm">
                                                         {guide.languagesSpoken.join(', ')}
                                                     </span>
                                                 </div>
 
-                                                <div className="flex items-center space-x-3 text-gray-600 hover:text-purple-600 transition-colors">
-                                                    <Award size={18} className="text-purple-500" />
+                                                <div className="flex items-center space-x-3 text-gray-300 hover:text-purple-400 transition-colors">
+                                                    <Award size={18} className="text-purple-400" />
                                                     <span className="text-sm">
                                                         {guide.experience} {guide.experience === '1' ? 'Year' : 'Years'} Experience
                                                     </span>
@@ -160,7 +194,7 @@ const TourGuideCard = () => {
 
                                 {/* Back Side */}
                                 <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
-                                    <div className="bg-white rounded-2xl shadow-lg h-full overflow-hidden">
+                                    <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-lg h-full overflow-hidden">
                                         {/* Header */}
                                         <div className="h-24 bg-gradient-to-r from-purple-600 to-blue-500 relative overflow-hidden">
                                             <div className="absolute inset-0 bg-black/10"></div>
@@ -172,31 +206,28 @@ const TourGuideCard = () => {
                                         {/* Contact Details */}
                                         <div className="px-6 py-8 space-y-6">
                                             <div className="space-y-4">
-                                                <div className="flex items-center space-x-4 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                                                    <Phone size={20} className="text-blue-500" />
+                                                <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                                    <Phone size={20} className="text-blue-400" />
                                                     <div>
-                                                        <p className="text-xs text-gray-500 uppercase tracking-wide">Phone</p>
-                                                        <p className="font-medium text-gray-800">{guide.phoneNumber}</p>
+                                                        <p className="text-xs text-gray-400 uppercase tracking-wide">Phone</p>
+                                                        <p className="font-medium text-white">{guide.phoneNumber}</p>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center space-x-4 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                                                    <Mail size={20} className="text-green-500" />
+                                                <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                                    <Mail size={20} className="text-green-400" />
                                                     <div>
-                                                        <p className="text-xs text-gray-500 uppercase tracking-wide">Email</p>
-                                                        <p className="font-medium text-gray-800 text-sm">{guide.email}</p>
+                                                        <p className="text-xs text-gray-400 uppercase tracking-wide">Email</p>
+                                                        <p className="font-medium text-white text-sm">{guide.email}</p>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center space-x-4 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                                                    <Calendar size={20} className="text-purple-500" />
+                                                <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                                    <Calendar size={20} className="text-purple-400" />
                                                     <div>
-                                                        <p className="text-xs text-gray-500 uppercase tracking-wide">Member Since</p>
-                                                        <p className="font-medium text-gray-800">
-                                                            {new Date(guide.createdAt).toLocaleDateString('en-US', {
-                                                                month: 'long',
-                                                                year: 'numeric'
-                                                            })}
+                                                        <p className="text-xs text-gray-400 uppercase tracking-wide">Member Since</p>
+                                                        <p className="font-medium text-white">
+                                                            {formatDate(guide.createdAt)}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -207,8 +238,8 @@ const TourGuideCard = () => {
                                                     Book a Tour
                                                 </button>
                                                 <button
-                                                    onClick={() => handleCardFlip(guide.id)}
-                                                    className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 font-medium"
+                                                    onClick={() => handleCardFlip(guide._id)}
+                                                    className="w-full bg-gray-600 hover:bg-gray-500 text-white py-3 rounded-xl transition-all duration-300 transform hover:scale-105 font-medium"
                                                 >
                                                     Back to Profile
                                                 </button>
@@ -221,6 +252,28 @@ const TourGuideCard = () => {
                     ))}
                 </div>
             </div>
+
+            <style jsx>{`
+                .perspective-1000 {
+                    perspective: 1000px;
+                }
+                .transform-style-preserve-3d {
+                    transform-style: preserve-3d;
+                }
+                .backface-hidden {
+                    backface-visibility: hidden;
+                }
+                .rotate-y-180 {
+                    transform: rotateY(180deg);
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: scale(0.8); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                .animate-fadeIn {
+                    animation: fadeIn 0.5s ease-out;
+                }
+            `}</style>
         </div>
     );
 };
