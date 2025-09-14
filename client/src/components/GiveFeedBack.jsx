@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { MapPin, Star, User, Calendar, X, Send } from 'lucide-react';
+import { MapPin, Star, User, Calendar, X, Send, ArrowLeft } from 'lucide-react';
 import { handleError, handleSuccess } from './ErrorMessage';
 import axios from 'axios';
+import Navbar from './Navbar';
 const KashmirDetailPage = () => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const { id } = useParams()
@@ -12,11 +13,12 @@ const KashmirDetailPage = () => {
   const [nationality, setnationality] = useState('');
   const [loder, setLoder] = useState(false)
   const [feedbackList, setFeedbackList] = useState([])
-  const [placeadata,setplacedata]=useState([])
+  const [placeadata, setplacedata] = useState([])
   const [Mainloder, setMainloder] = useState(false)
-  const [reloaddata,setreloaddata]=useState(false)
+  const [reloaddata, setreloaddata] = useState(false)
   useEffect(() => {
     const fecthallfeedback = async () => {
+      setMainloder(true)
       const responce = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v4/place/feedback/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +31,8 @@ const KashmirDetailPage = () => {
       }
       setFeedbackList(responce.data.message)
     }
-    const fecthplacedata= async()=>{
+
+    const fecthplacedata = async () => {
       const responce = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v4/place/placedata/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -41,13 +44,15 @@ const KashmirDetailPage = () => {
 
       }
       setplacedata(responce.data.message)
-  
+      setMainloder(false)
     }
     fecthallfeedback()
     fecthplacedata()
   }, [reloaddata])
 
-
+  const handleback = () => {
+    window.history.back()
+  }
   const handleSubmitFeedback = async () => {
     if (name && nationality && rating && Feedbackdisc) {
       setLoder(false)
@@ -94,15 +99,30 @@ const KashmirDetailPage = () => {
       return `${days} days ago`;
     }
   };
+  if (Mainloder) {
+    return (
+      <div className="min-h-screen bg-gray-800">
+        <div className='w-full h-[80vh] flex justify-center items-center '><div className='bigloder'></div></div>
+      </div>
+    )
+  }
   return (
     <div className="min-h-screen bg-gray-800">
+      {/* <Navbar/> */}
       {/* Hero Section */}
       <div className={`relative h-80 bg-gradient-to-b from-cyan-600 to-blue-800 `}>
-       <div className='flex items-center justify-center pt-7'> <img className='h-52' src={placeadata.imgUrl} alt="" /></div>
-        <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full flex items-center gap-2">
+        <div className='flex items-center justify-center pt-7'> <img className='h-52' src={placeadata.imgUrl} alt="" /></div>
+        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full flex items-center gap-2">
           <MapPin className="w-4 h-4" />
           <span className="text-sm font-medium">{placeadata.temperature}°</span>
+
         </div>
+        <div onClick={handleback} className="absolute top-4 left-4 bg-white px-3 py-1 rounded-2xl cursor-pointer flex items-center gap-2">
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm font-medium">Back</span>
+
+        </div>
+
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <h1 className="text-4xl font-bold text-white mb-2">{placeadata.name}</h1>
           <div className="flex items-center gap-4">
@@ -120,7 +140,7 @@ const KashmirDetailPage = () => {
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-2xl font-bold mb-4">About {placeadata.name}</h2>
           <p className="text-gray-700 mb-3">
-           {placeadata.description}
+            {placeadata.description}
           </p>
           <a target='_blank' href={`${placeadata.LocUrl}`}><button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-semibold rounded-lg text-lg px-5 py-4 text-center transition-all duration-300 transform hover:scale-[1.03] mt-5 cursor-pointer"> LIve location </button></a>
         </div>

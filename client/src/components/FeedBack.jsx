@@ -49,6 +49,7 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
             if (responce.data.status) {
                 handleSuccess("Place is added")
                 onCancel()
+                window.location.reload();
                 return setLoder(false)
             }
         } catch (error) {
@@ -56,7 +57,7 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
             setLoder(false)
             return handleError("Some error happend")
         }
-        setreloaddata(true)
+        
     };
 
     return (
@@ -161,7 +162,7 @@ const Feedback = () => {
 
             setdestinations(responce.data.data)
             setMainloder(false)
-
+            
         }
         fecthdata()
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Calendar, MapPinHouse ,Shield, User, Phone, MapPin, Clock, Wallet, CheckCircle } from 'lucide-react';
+import { Calendar, MapPinHouse, Shield, User, Phone, MapPin, Clock, Wallet, CheckCircle } from 'lucide-react';
 import { ethers, BrowserProvider } from 'ethers';
 import { keccak256, toUtf8Bytes } from "ethers";
 import Trutiscontract from "../contracts/TouristIDRegistration.sol/AllTourist.json"
@@ -17,7 +17,7 @@ const OfficerTouristRegistration = () => {
         familyContact: '',
         startDate: '',
         endDate: '',
-        nationality:''
+        nationality: ''
     });
 
     const [errors, setErrors] = useState({});
@@ -31,7 +31,7 @@ const OfficerTouristRegistration = () => {
     const [Tnx, setTnx] = useState('')
     const [Trustidgen, setTrustidgen] = useState(true)
     const [downloadbtn, setdownloadbtn] = useState(true)
-    const [loadmail,setloadmail]=useState(false)
+    const [loadmail, setloadmail] = useState(false)
 
     const downloadpdf = async (e) => {
         // e.preventDefault()
@@ -46,17 +46,17 @@ const OfficerTouristRegistration = () => {
             body: JSON.stringify({
                 ...formData,
                 qrCode: qrDataUrl,
-                Trustid:Trustid
-                 // if QR generated in frontend
+                Trustid: Trustid
+                // if QR generated in frontend
             }),
         });
         const url1 = `${import.meta.env.VITE_BACKEND_URL}/api/v2/userdata/savedata`
-        const res1= await fetch(url1, {
+        const res1 = await fetch(url1, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 ...formData,
-                Trustid:Trustid
+                Trustid: Trustid
             }),
         })
         const data1 = await res1.json();
@@ -311,7 +311,7 @@ const OfficerTouristRegistration = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center space-x-3">
-                                                <MapPinHouse  className="w-4 h-4 text-gray-400" />
+                                                <MapPinHouse className="w-4 h-4 text-gray-400" />
                                                 <div>
                                                     <p className="font-medium text-gray-900">{formData.nationality}</p>
                                                     <p className="text-sm text-gray-500">Nationality </p>
@@ -405,7 +405,7 @@ const OfficerTouristRegistration = () => {
                                     </p>
                                 </div>
 
-                                {downloadbtn ? <button onClick={downloadpdf} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{loadmail?<div className='flex justify-center items-center'><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></div>:'Send PDF'}</button> : <button
+                                {downloadbtn ? <button onClick={downloadpdf} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{loadmail ? <div className='flex justify-center items-center'><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></div> : 'Send PDF'}</button> : <button
                                     onClick={resetForm}
                                     className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
@@ -738,6 +738,12 @@ const OfficerTouristRegistration = () => {
                             </div>
                         </form>
                     </div>
+                    <Link to="/tourguide"><button
+                        type="submit"
+                        className='w-full py-3 bg-blue-600 hover:bg-blue-700 mt-4 px-4 rounded-lg font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                    >
+                        Register TourGuider
+                    </button></Link>
                 </div>
             </div>}
         </>
