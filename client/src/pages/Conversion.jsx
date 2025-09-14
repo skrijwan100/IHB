@@ -115,7 +115,7 @@ const PostCard = ({ post, onUserClick }) => {
 
 const CreateConversionPopup = ({ isOpen, onClose, onCreate }) => {
   const [content, setContent] = useState('');
-  const { isLoading, error, message, createConversion } = conversionStore();
+  const { isLoading, error, message, createConversion, getAllConversions } = conversionStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,6 +123,7 @@ const CreateConversionPopup = ({ isOpen, onClose, onCreate }) => {
     
     try {
       await createConversion(content);
+      await getAllConversions();
       setContent('');
       onClose();
     } catch (error) {
