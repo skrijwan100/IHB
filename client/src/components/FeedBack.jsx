@@ -4,7 +4,8 @@ import { MapPin, Upload, User } from 'lucide-react';
 import { handleError, handleSuccess } from './ErrorMessage';
 import axios from 'axios';
 import { Link, useParams } from 'react-router';
-const AddPlaceForm = ({ onCancel,setreloaddata }) => {
+import TouristPlatformFooter from '../pages/Footer';
+const AddPlaceForm = ({ onCancel, setreloaddata }) => {
     const [formData, setFormData] = useState({
         name: '',
         tags: '',
@@ -57,11 +58,11 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
             setLoder(false)
             return handleError("Some error happend")
         }
-        
+
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
             <div className="bg-[#1a202c] p-8 rounded-2xl shadow-2xl w-full max-w-2xl max-h-full overflow-y-auto">
                 <h2 className="text-2xl font-bold text-white mb-6">Add New Tourist Place</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -147,8 +148,8 @@ const AddPlaceForm = ({ onCancel,setreloaddata }) => {
 
 const Feedback = () => {
     const [destinationss, setdestinations] = useState([])
-    const [mainloder,setMainloder]=useState(false)
-    const [reloaddata,setreloaddata]=useState(false)
+    const [mainloder, setMainloder] = useState(false)
+    const [reloaddata, setreloaddata] = useState(false)
     useEffect(() => {
         const fecthdata = async () => {
             setMainloder(true)
@@ -162,99 +163,102 @@ const Feedback = () => {
 
             setdestinations(responce.data.data)
             setMainloder(false)
-            
+
         }
         fecthdata()
 
     }, [reloaddata])
 
     const [showForm, setShowForm] = useState(false);
-   
+
 
 
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br bg-gray-800  text-white p-5">
+        <>
+            <div className="min-h-screen bg-gradient-to-br bg-gray-800  text-white p-5">
 
-            <Navbar />
+                <Navbar />
 
-            {/* Header Section */}
+                {/* Header Section */}
 
-            {/* Trusted Places Grid */}
-            {mainloder?<div className='w-full h-[70vh] flex justify-center items-center '><div className='bigloder'></div></div>:<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
-                {destinationss.map((dest) => (
-                    <div
-                        key={dest._id}
-                        className="bg-gray-800 rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+                {/* Trusted Places Grid */}
+                {mainloder ? <div className='w-full h-[70vh] flex justify-center items-center '><div className='bigloder'></div></div> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
+                    {destinationss.map((dest) => (
+                        <div
+                            key={dest._id}
+                            className="bg-gray-800 rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+                        >
+                            {/* Image & Overlay */}
+                            <div className="relative overflow-hidden">
+                                <img
+                                    src={dest.imgUrl}
+                                    alt={dest.name}
+                                    className="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent rounded-t-2xl"></div>
+                                <div className="absolute top-3 left-3 flex items-center gap-2 text-white text-sm font-medium bg-black/40 px-3 py-1 rounded-full">
+                                    <MapPin size={16} /> {dest.temperature}°
+                                </div>
+                            </div>
+
+                            {/* Card Content */}
+                            <div className="p-5">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-lg font-semibold text-white group-hover:text-orange-600 transition">
+                                        {dest.name}
+                                    </h3>
+                                    <span className="text-gray-400 flex items-center text-sm gap-1">
+                                        <User size={16} /> {dest.tags}
+                                    </span>
+                                </div>
+
+                                <p className="mt-2 text-gray-300 text-sm leading-relaxed">
+                                    {dest.description}
+                                </p>
+
+                                {/* Tags */}
+                                <div>
+
+                                    <span
+                                        className="px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full hover:bg-green-500 hover:text-white transition"
+                                    >
+                                        One day budget: {dest.budget}
+                                    </span>
+                                </div>
+                                <a target='_blank' href={`${dest.LocUrl}`}><button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-semibold rounded-lg text-lg px-5 py-4 text-center transition-all duration-300 transform hover:scale-105 mt-5 cursor-pointer"> LIve location </button></a>
+                                <Link to={`/feedback/${dest._id}`}><button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-semibold rounded-lg text-lg px-5 py-4 text-center transition-all duration-300 transform hover:scale-105 mt-5 cursor-pointer"> Feedback </button></Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                }
+
+                {/* Add New Section */}
+                <div className="max-w-2xl mx-auto text-center mb-12 mt-6">
+                    <button
+                        onClick={() => setShowForm(true)}
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 cursor-pointer text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl flex items-center gap-3 mx-auto"
                     >
-                        {/* Image & Overlay */}
-                        <div className="relative overflow-hidden">
-                            <img
-                                src={dest.imgUrl}
-                                alt={dest.name}
-                                className="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent rounded-t-2xl"></div>
-                            <div className="absolute top-3 left-3 flex items-center gap-2 text-white text-sm font-medium bg-black/40 px-3 py-1 rounded-full">
-                                <MapPin size={16} /> {dest.temperature}°
-                            </div>
-                        </div>
+                        Add New Tourist Place for feedback
+                    </button>
 
-                        {/* Card Content */}
-                        <div className="p-5">
-                            <div className="flex justify-between items-center">
-                                <h3 className="text-lg font-semibold text-white group-hover:text-orange-600 transition">
-                                    {dest.name}
-                                </h3>
-                                <span className="text-gray-400 flex items-center text-sm gap-1">
-                                    <User size={16} /> {dest.tags}
-                                </span>
-                            </div>
+                </div>
+                {showForm && (
+                    <AddPlaceForm
+                        onCancel={() => setShowForm(false)}
+                        setreloaddata={setreloaddata}
+                    />
+                )}
 
-                            <p className="mt-2 text-gray-300 text-sm leading-relaxed">
-                                {dest.description}
-                            </p>
+                {/* Footer */}
+                <div>
 
-                            {/* Tags */}
-                            <div>
-
-                                <span
-                                    className="px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full hover:bg-green-500 hover:text-white transition"
-                                >
-                                    One day budget: {dest.budget}
-                                </span>
-                            </div>
-                            <a target='_blank' href={`${dest.LocUrl}`}><button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-semibold rounded-lg text-lg px-5 py-4 text-center transition-all duration-300 transform hover:scale-105 mt-5 cursor-pointer"> LIve location </button></a>
-                             <Link to={`/feedback/${dest._id}`}><button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-semibold rounded-lg text-lg px-5 py-4 text-center transition-all duration-300 transform hover:scale-105 mt-5 cursor-pointer"> Feedback </button></Link>
-                        </div>
-                    </div>
-                ))}
+                </div>
             </div>
-}
-
-            {/* Add New Section */}
-            <div className="max-w-2xl mx-auto text-center mb-12 mt-6">
-                <button
-                    onClick={() => setShowForm(true)}
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 cursor-pointer text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl flex items-center gap-3 mx-auto"
-                >
-                    Add New Tourist Place for feedback
-                </button>
-
-            </div>
-            {showForm && (
-                <AddPlaceForm
-                    onCancel={() => setShowForm(false)}
-                    setreloaddata={setreloaddata}
-                />
-            )}
-
-            {/* Footer */}
-            <div className="text-center mt-16 pt-8 border-t border-blue-500/10">
-                <p className="text-slate-400">© 2024 SecureApp. All Rights Reserved.</p>
-            </div>
-        </div>
+                    <TouristPlatformFooter />
+        </>
     );
 };
 

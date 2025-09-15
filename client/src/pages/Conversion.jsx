@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import { User, X, Send, UserPlus, Mail, Globe, UserCheck } from 'lucide-react';
 import conversionStore from "../store/conversionStore.js";
 import {timeAgo} from "../constants/constant.js"
+import TouristPlatformFooter from './Footer.jsx';
 
 // User Info Modal Component
 const UserInfoModal = ({ isOpen, onClose, userInfo, isLoading }) => {
@@ -300,6 +301,7 @@ const Conversion = () => {
         userInfo={userInfoModal.userInfo}
         isLoading={userInfoModal.isLoading}
       />
+      <TouristPlatformFooter/>  
     </div>
   );
 };
