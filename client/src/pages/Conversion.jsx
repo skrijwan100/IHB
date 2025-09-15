@@ -204,7 +204,7 @@ const CreateConversionPopup = ({ isOpen, onClose, onCreate }) => {
 };
 
 const Conversion = () => {
-  const { allConversions, getAllConversions, deleteConversion } = conversionStore();
+  const { allConversions, getAllConversions, deleteConversion, isLoading:isLoadingMain } = conversionStore();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userInfoModal, setUserInfoModal] = useState({
     isOpen: false,
@@ -251,6 +251,14 @@ const Conversion = () => {
       });
     }
   };
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
 
   const closeUserInfoModal = () => {
     setUserInfoModal({
@@ -268,6 +276,12 @@ const Conversion = () => {
       <main>
         <div className="bg-[#000000] text-white max-w-4xl pt-[5rem] mx-auto border-x border-gray-700 min-h-screen">
           <div className='flex flex-col-reverse'>
+            {
+              isLoadingMain && <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <span className="ml-3 text-gray-300">Loading conversions...</span>
+              </div> 
+            }
             {allConversions?.map(post => (
               <PostCard 
                 key={post._id} 
